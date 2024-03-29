@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
             centerTitle: true,
 
               titleTextStyle : TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                   fontSize: 22,
                   fontWeight: FontWeight.bold
               ),
@@ -76,3 +76,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+//first change
+//second change
