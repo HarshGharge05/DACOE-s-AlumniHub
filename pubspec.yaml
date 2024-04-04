@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  cached_network_image: ^3.3.1
   cloud_firestore: ^4.15.10
   firebase_auth: ^4.6.3
   firebase_core: ^2.14.0
@@ -97,6 +98,7 @@ flutter:
     - lib/images/boy1.png
     - lib/images/boy2.jpg
     - lib/images/LaunchingIcon.png
+    - lib/images/DACOE.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

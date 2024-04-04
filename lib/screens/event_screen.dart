@@ -22,6 +22,7 @@ class _FeedScreenState extends State<EventScreen> {
       appBar: width > webScreenSize
           ? null
           : AppBar(
+            automaticallyImplyLeading: false,
             backgroundColor: Colors.lightBlueAccent.shade100,
 
           centerTitle: false,

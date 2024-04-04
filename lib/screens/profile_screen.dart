@@ -68,18 +68,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return isLoading
         ? const Center(
-      child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(),
     )
         : Scaffold(
-      appBar: AppBar(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         title: Text(
           userData['username'],
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: false,
-      ),
-      body: ListView(
+        ),
+        body: ListView(
         children: [
           Padding(
             padding: const EdgeInsets.all(16),

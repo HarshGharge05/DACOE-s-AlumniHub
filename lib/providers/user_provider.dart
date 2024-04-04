@@ -3,13 +3,13 @@ import 'package:alumniapp/models/user.dart';
 import 'package:alumniapp/resources/auth_methods.dart';
 
 class UserProvider with ChangeNotifier {
-  User? _user;
+  Users? _user;
   final AuthMethods _authMethods = AuthMethods();
 
-  User get getUser => _user!;
+  Users get getUser => _user!;
 
   Future<void> refreshUser() async {
-    User user = await _authMethods.getUserDetails();
+    Users user = await _authMethods.getUserDetails();
     _user = user;
     notifyListeners();
   }

@@ -4,12 +4,15 @@ import 'package:alumniapp/responsive/mobile_screen_layout.dart';
 import 'package:alumniapp/responsive/responsive_layout.dart';
 import 'package:alumniapp/responsive/web_screen_layout.dart';
 import 'package:alumniapp/screens/login_screen.dart';
+import 'package:alumniapp/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
+//global object for accessing device screen size
+late Size mq;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,7 +37,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           appBarTheme: AppBarTheme(
             centerTitle: true,
-
               titleTextStyle : TextStyle(
                   color: Colors.white,
                   fontSize: 22,
@@ -44,7 +46,8 @@ class MyApp extends StatelessWidget {
             backgroundColor: Colors.blue,
           )
         ),
-        home: StreamBuilder(
+        home:
+        StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.active) {
