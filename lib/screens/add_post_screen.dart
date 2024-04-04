@@ -18,11 +18,11 @@ class AddPostScreen extends StatefulWidget {
 class _AddPostScreenState extends State<AddPostScreen> {
   Uint8List? _fileforpost;
   Uint8List? _fileforevent;
+  // Uint8List _image =Uint8List(0);
   bool isLoading = false;
   int f = 0;
   final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _descriptionControllerforEvent =
-  TextEditingController();
+  final TextEditingController _descriptionControllerforEvent = TextEditingController();
 
   //--------------------------------------------------------For Post----------------------------------------------------------------------------------
   _selectImageForPost(BuildContext parentContext) async {
@@ -65,7 +65,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
     );
   }
 
-  void postImage(String uid, String username, String profImage) async {
+  void postImage(String uid, List<String> username, List<String> profImage) async {
     setState(() {
       isLoading = true;
     });
@@ -73,7 +73,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
     try {
       // upload to storage and db
       String res = await FireStoreMethods().uploadPost(
-        _descriptionController.text,
+        [_descriptionController.text],
         _fileforpost!,
         uid,
         username,
@@ -152,7 +152,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
     );
   }
 
-  void eventImage(String uid, String username, String profImage) async {
+  void eventImage(String uid, List<String> username, List<String> profImage) async {
     setState(() {
       isLoading = true;
     });
@@ -160,7 +160,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
     try {
       // upload to storage and db
       String res = await FireStoreMethodsForEvent().uploadPost(
-        _descriptionControllerforEvent.text,
+        [_descriptionControllerforEvent.text],
         _fileforevent!,
         uid,
         username,
@@ -208,6 +208,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
     setState(() {
       _fileforpost = null;
       _fileforevent = null;
+      // _fileforpost.isEmpty;
+      // _fileforevent.isEmpty;
     });
   }
 //------------------------------------------------------------------------------------------------------------------------------------------
@@ -216,97 +218,209 @@ class _AddPostScreenState extends State<AddPostScreen> {
   Widget build(BuildContext context) {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.cyan.shade400,
-        title: const Text(
-          'Add Post/Event',
-          style: TextStyle(color: Colors.black),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-      ),
-      backgroundColor: Colors.cyan.shade50,
-      body: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+    return (_fileforpost == null && _fileforevent == null)
+        ? Column(
             children: <Widget>[
-              GestureDetector(
-                onTap: () => _selectImageForPost(context),
-                child: Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.blue,
+              const SizedBox(
+                height: 250,
+              ),
+              Center(
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.upload,
+                    color: Colors.black,
+                    size: 50,
                   ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.camera_alt,
-                      color: Colors.white,
-                      size: 50,
-                    ),
-                  ),
+                  onPressed: () => _selectImageForPost(context),
                 ),
               ),
-
-              const SizedBox(height: 20),
               const Text(
-                "            Click to upload a Post",
-                style: TextStyle(color: Colors.black, fontSize: 20),
+                "Click to upload a Post",
+                style: TextStyle(color: Colors.black54, fontSize: 25),
               ),
-              const SizedBox(height: 20),
-              GestureDetector(
-                onTap: () => _selectImageForEvent(context),
-                child: Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.green,
-                  ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.event,
-                      color: Colors.white,
-                      size: 50,
-                    ),
-                  ),
+              IconButton(
+                icon: const Icon(
+                  Icons.upload,
+                  color: Colors.black,
+                  size: 50,
                 ),
+                onPressed: () => _selectImageForEvent(context),
               ),
-              const SizedBox(height: 20),
               const Text(
-                "             Click to upload an Event",
-                style: TextStyle(color: Colors.black, fontSize: 20),
+                "Click to upload a Event",
+                style: TextStyle(color: Colors.black54, fontSize: 25),
               ),
             ],
-          ),
-          // Positioned(
-          //   top: 0,
-          //   // child: Icon(
-          //   //   //Icons.arrow_downward_sharp,
-          //   //   //color: Colors.black,
-          //   //   //size: 50,
-          //   // ),
-          // ),
-          // Positioned(
-          //   bottom: 0,
-          //   // child: Icon(
-          //   //  // Icons.arrow_upward_sharp,
-          //   //   //color: Colors.black,
-          //   //  // size: 50,
-          //   // ),
-          // ),
-        ],
-      ),
-    );
+          )
+        : (f == 0)
+            ? Scaffold(
+                appBar: AppBar(
+                  backgroundColor: Colors.white,
+                  leading: IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    color: Colors.black,
+                    onPressed: clearImageForPostAndEvent,
+                  ),
+                  title: const Text(
+                    'Post to',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  centerTitle: false,
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => postImage(
+                        userProvider.getUser.uid,
+                        userProvider.getUser.username,
+                        userProvider.getUser.photoUrl,
+                        // userProfilePhotoUrl,
+
+                      ),
+                      child: const Text(
+                        "Post",
+                        style: TextStyle(
+                            color: Colors.blueAccent,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0),
+                      ),
+                    )
+                  ],
+                ),
+                // POST FORM
+                body: ListView(children: [
+                  Column(
+                    children: <Widget>[
+                      isLoading
+                          ? const LinearProgressIndicator()
+                          : const Padding(padding: EdgeInsets.only(top: 0.0)),
+                      const Divider(),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        height: MediaQuery.of(context).size.width * 0.7,
+                        // height: 300.0,
+                        // width: 300.0,
+                        child: AspectRatio(
+                          aspectRatio: 487 / 451,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                              fit: BoxFit.fill,
+                              alignment: FractionalOffset.topCenter,
+                              image: MemoryImage(_fileforpost!),
+                            )),
+                          ),
+                        ),
+                      ),
+                      const Divider(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          CircleAvatar(
+                            backgroundImage: NetworkImage(
+                              userProvider.getUser.photoUrl[0],
+                              //   'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg'
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            child: TextField(
+                              controller: _descriptionController,
+                              decoration: const InputDecoration(
+                                  hintText: "Write a caption...",
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: InputBorder.none),
+                              maxLines: 8,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Divider(),
+                    ],
+                  ),
+                ]))
+            : Scaffold(
+                appBar: AppBar(
+                  backgroundColor: Colors.white,
+                  leading: IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    color: Colors.black,
+                    onPressed: clearImageForPostAndEvent,
+                  ),
+                  title: const Text(
+                    'Post to',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  centerTitle: false,
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => eventImage(
+                        userProvider.getUser.uid,
+                        userProvider.getUser.username,
+                        userProvider.getUser.photoUrl,
+                      ),
+                      child: const Text(
+                        "Post",
+                        style: TextStyle(
+                            color: Colors.blueAccent,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0),
+                      ),
+                    )
+                  ],
+                ),
+                // POST FORM
+                body: ListView(children: [
+                  Column(
+                    children: <Widget>[
+                      isLoading
+                          ? const LinearProgressIndicator()
+                          : const Padding(padding: EdgeInsets.only(top: 0.0)),
+                      const Divider(),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        height: MediaQuery.of(context).size.width * 0.7,
+                        // height: 300.0,
+                        // width: 300.0,
+                        child: AspectRatio(
+                          aspectRatio: 487 / 451,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                              fit: BoxFit.fill,
+                              alignment: FractionalOffset.topCenter,
+                              image: MemoryImage(_fileforevent!),
+                            )),
+                          ),
+                        ),
+                      ),
+                      const Divider(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          CircleAvatar(
+                            backgroundImage: NetworkImage(
+                              userProvider.getUser.photoUrl[0],
+                              //   'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg'
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            child: TextField(
+                              controller: _descriptionControllerforEvent,
+                              decoration: const InputDecoration(
+                                  hintText: "Write a caption...",
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: InputBorder.none),
+                              maxLines: 8,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Divider(),
+                    ],
+                  ),
+                ]),
+              );
   }
 }

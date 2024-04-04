@@ -1,19 +1,18 @@
 import 'dart:typed_data';
-import 'package:alumniapp/models/chat_user.dart';
-import 'package:alumniapp/models/message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:alumniapp/models/user.dart' as model;
 import 'package:alumniapp/resources/storage_methods.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 
+import '../models/chat_user.dart';
+import '../models/message.dart';
 import 'firestore_methods.dart';
 
 class AuthMethods {
-
-  //for accessing cloud firestore database
+   //for accessing cloud firestore database
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
-
   //for authentication
   static FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -23,45 +22,47 @@ class AuthMethods {
   // to return current user
   static User get currentUser => auth.currentUser!;
 
+  // List<String> photourl1 =[];
   // get user details
   Future<model.Users> getUserDetails() async {
     User currentUser = auth.currentUser!;
 
     DocumentSnapshot documentSnapshot =
-    await firestore.collection('users').doc(currentUser.uid).get();
+        await firestore.collection('users').doc(currentUser.uid).get();
 
     return model.Users.fromSnap(documentSnapshot);
   }
 
-  // Signing Up User
-
   Future<String> signUpUser({
     required String email,
     required String password,
-    required String username,
-    required String description,
-    required Uint8List file,
+    required List<String> username,
+    required List<String> description,
+    required List<Uint8List> files, // Change here
   }) async {
     String res = "Some error Occurred";
     try {
       if (email.isNotEmpty ||
           password.isNotEmpty ||
           username.isNotEmpty ||
-          description.isNotEmpty ||
-          file != null) {
+          description.isNotEmpty) {
         // registering user in auth with email and password
         UserCredential cred = await auth.createUserWithEmailAndPassword(
           email: email,
           password: password,
         );
 
-        String photoUrl =
-        await StorageMethods().uploadImageToStorage('profilePics', file, false);
+        List<String> photoUrls = [];
+        for (Uint8List file in files) {
+          String photoUrl = await StorageMethods()
+              .uploadImageToStorage('profilePics', file, false);
+          photoUrls.add(photoUrl);
+        }
 
         model.Users user = model.Users(
           username: username,
           uid: cred.user!.uid,
-          photoUrl: photoUrl,
+          photoUrl: photoUrls,
           email: email,
           description: description,
           followers: [],
@@ -69,18 +70,11 @@ class AuthMethods {
         );
 
         // adding user in our database
-        await firestore
-            .collection("users")
-            .doc(cred.user!.uid)
-            .set(user.toJson());
+        await firestore.collection("users").doc(cred.user!.uid).set(user.toJson());
+
 
         //for creating a user for chatuser collection on firebase
-        createUser(username, email,  photoUrl, description);
-
-        // await firestore
-        //     .collection('chatusers')
-        //     .doc(auth.currentUser!.uid)
-        //     .set(user.toJson());
+        createUser(username[0], email,  photoUrls[0], description[0]);
 
         res = "success";
       } else {
@@ -91,6 +85,11 @@ class AuthMethods {
     }
     return res;
   }
+
+
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
   //for checking if user exist or not?
 
@@ -175,7 +174,46 @@ class AuthMethods {
 //chats (collection) --> conversation_id(doc) --> messages(collection) --> message(doc)
 
 
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+  Future<String> updateUserProf({
+    required List<String> username,
+    required List<String> description,
+    required List<Uint8List> files, // Change here
+  }) async {
+    String res = "Some error Occurred";
+    try {
+
+        List<String> photoUrls1 = [];
+        for (Uint8List file in files) {
+          String photoUrl = await StorageMethods()
+              .uploadImageToStorage('profilePics', file, false);
+          photoUrls1.add(photoUrl);
+        }
+
+        model.Users user = model.Users(
+          username: username,
+          uid: '',
+          photoUrl: photoUrls1,
+          email: '',
+          description: description,
+          followers: [],
+          following: [],
+        );
+
+        // adding user in our database
+        // await _firestore.collection("users").doc(cred.user!.uid).set(user.toJson());
+
+        res = "success";
+
+    } catch (err) {
+      return err.toString();
+    }
+    return res;
+  }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // logging in user
   Future<String> loginUser({
@@ -204,3 +242,4 @@ class AuthMethods {
     await auth.signOut();
   }
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////

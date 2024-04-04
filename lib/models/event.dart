@@ -3,14 +3,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Event {
-  final String description;
+  final List<String> description;
   final String uid;
-  final String username;
+  final List<String> username;
   final likes;
   final String postId;
   final DateTime datePublished;
   final String postUrl;
-  final String profImage;
+  final List<String> profImage;
 
   const Event(
       {required this.description,

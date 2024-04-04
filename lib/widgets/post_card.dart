@@ -88,7 +88,7 @@ class _PostCardState extends State<PostCard> {
                 CircleAvatar(
                   radius: 16,
                   backgroundImage: NetworkImage(
-                    widget.snap['profImage'].toString(),
+                    widget.snap['profImage'][0].toString(),
                   ),
                 ),
                 Expanded(
@@ -101,16 +101,55 @@ class _PostCardState extends State<PostCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          widget.snap['username'].toString(),
+                          widget.snap['username'][0].toString(),
                           style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black
-                          ),
+                              fontWeight: FontWeight.bold, color: Colors.black),
                         ),
                       ],
                     ),
                   ),
                 ),
+                widget.snap['uid'].toString() == user.uid
+                    ? IconButton(
+                        onPressed: () {
+                          showDialog(
+                            useRootNavigator: false,
+                            context: context,
+                            builder: (context) {
+                              return Dialog(
+                                child: ListView(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 16),
+                                    shrinkWrap: true,
+                                    children: [
+                                      'Delete',
+                                    ]
+                                        .map(
+                                          (e) => InkWell(
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 12,
+                                                        horizontal: 16),
+                                                child: Text(e),
+                                              ),
+                                              onTap: () {
+                                                deletePost(
+                                                  widget.snap['postId']
+                                                      .toString(),
+                                                );
+                                                // remove the dialog box
+                                                Navigator.of(context).pop();
+                                              }),
+                                        )
+                                        .toList()),
+                              );
+                            },
+                          );
+                        },
+                        icon: const Icon(Icons.more_vert),
+                      )
+                    : Container(),
               ],
             ),
           ),
@@ -182,8 +221,8 @@ class _PostCardState extends State<PostCard> {
                 isAnimating: widget.snap['likes'].contains(user.uid),
                 smallLike: true,
                 child: IconButton(
-                  icon: widget.snap['likes'].contains(user.uid) ?
-                  const Icon(
+                  icon: widget.snap['likes'].contains(user.uid)
+                      ? const Icon(
                           Icons.thumb_up,
                           color: Colors.pink,
                         )
@@ -234,7 +273,6 @@ class _PostCardState extends State<PostCard> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.only(
@@ -245,14 +283,12 @@ class _PostCardState extends State<PostCard> {
                       style: const TextStyle(color: Colors.black),
                       children: [
                         TextSpan(
-                          text: widget.snap['username'].toString(),
+                          text: widget.snap['username'][0].toString(),
                           style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20
-                          ),
+                              fontWeight: FontWeight.bold, fontSize: 20),
                         ),
                         TextSpan(
-                          text: ' ${widget.snap['description']}',
+                          text: ' ${widget.snap['description'][0]}',
                         ),
                       ],
                     ),

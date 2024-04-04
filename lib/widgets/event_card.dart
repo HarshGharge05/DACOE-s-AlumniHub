@@ -88,7 +88,7 @@ class _EventCardState extends State<EventCard> {
                 CircleAvatar(
                   radius: 16,
                   backgroundImage: NetworkImage(
-                    widget.snap['profImage'].toString(),
+                    widget.snap['profImage'][0].toString(),
                   ),
                 ),
                 Expanded(
@@ -101,7 +101,7 @@ class _EventCardState extends State<EventCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          widget.snap['username'].toString(),
+                          widget.snap['username'][0].toString(),
                           style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.black
@@ -286,14 +286,14 @@ class _EventCardState extends State<EventCard> {
                       style: const TextStyle(color: Colors.black),
                       children: [
                         TextSpan(
-                          text: widget.snap['username'].toString(),
+                          text: widget.snap['username'][0].toString(),
                           style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20
                           ),
                         ),
                         TextSpan(
-                          text: ' ${widget.snap['description']}',
+                          text: ' ${widget.snap['description'][0]}',
                         ),
                       ],
                     ),

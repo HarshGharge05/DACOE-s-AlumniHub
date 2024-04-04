@@ -87,7 +87,7 @@ class _CommentsScreenforEventState extends State<CommentsScreenforEvent> {
           child: Row(
             children: [
               CircleAvatar(
-                backgroundImage: NetworkImage(user.photoUrl),
+                backgroundImage: NetworkImage(user.photoUrl[0]),
                 radius: 18,
               ),
               Expanded(
@@ -106,8 +106,8 @@ class _CommentsScreenforEventState extends State<CommentsScreenforEvent> {
               InkWell(
                 onTap: () => EventComment(
                   user.uid,
-                  user.username,
-                  user.photoUrl,
+                  user.username[0],
+                  user.photoUrl[0],
                 ),
                 child: Container(
                   padding:
