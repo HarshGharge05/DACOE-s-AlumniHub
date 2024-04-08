@@ -28,7 +28,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
   //for handling message text change
   final _textController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
