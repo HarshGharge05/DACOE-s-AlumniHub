@@ -10,26 +10,49 @@ import 'package:alumniapp/widgets/like_animation.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+
+// class AuthehodforPostAndEvent{
+//   //for accessing cloud firestore database
+//   static FirebaseFirestore firestore = FirebaseFirestore.instance;
+//   //for authentication
+//   static FirebaseAuth auth = FirebaseAuth.instance;
+//
+//   //for accessing firebase storage
+//   final FirebaseStorage _storage = FirebaseStorage.instance;
+//
+//
+// }
+
+
 class PostCard extends StatefulWidget {
   final snap;
-  const PostCard({
+   PostCard({
     Key? key,
     required this.snap,
   }) : super(key: key);
 
   @override
   State<PostCard> createState() => _PostCardState();
+
 }
 
 class _PostCardState extends State<PostCard> {
   int commentLen = 0;
   bool isLikeAnimating = false;
+  var userData = {};
 
   @override
   void initState() {
     super.initState();
     fetchCommentLen();
+
   }
+
+
+
+
+
+
 
   fetchCommentLen() async {
     try {
@@ -47,6 +70,8 @@ class _PostCardState extends State<PostCard> {
     }
     setState(() {});
   }
+
+
 
   deletePost(String postId) async {
     try {
@@ -101,7 +126,7 @@ class _PostCardState extends State<PostCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          widget.snap['username'][0].toString(),
+                          widget.snap['username'][0],
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, color: Colors.black),
                         ),
@@ -283,7 +308,7 @@ class _PostCardState extends State<PostCard> {
                       style: const TextStyle(color: Colors.black),
                       children: [
                         TextSpan(
-                          text: widget.snap['username'][0].toString(),
+                          text: "${widget.snap['username'][0].toString()}",
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ),

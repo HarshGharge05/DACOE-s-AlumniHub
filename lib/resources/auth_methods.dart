@@ -22,7 +22,7 @@ class AuthMethods {
   // to return current user
   static User get currentUser => auth.currentUser!;
 
-  // List<String> photourl1 =[];
+
   // get user details
   Future<model.Users> getUserDetails() async {
     User currentUser = auth.currentUser!;
@@ -33,6 +33,9 @@ class AuthMethods {
     return model.Users.fromSnap(documentSnapshot);
   }
 
+
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   Future<String> signUpUser({
     required String email,
     required String password,
@@ -74,7 +77,7 @@ class AuthMethods {
 
 
         //for creating a user for chatuser collection on firebase
-        createUser(username[0], email,  photoUrls[0], description[0]);
+        createUser(username, email,  photoUrls, description);
 
         res = "success";
       } else {
@@ -88,27 +91,27 @@ class AuthMethods {
 
 
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
   //for checking if user exist or not?
 
 
   //for creating a user for chatuser collection on firebase
-  static Future<void> createUser(String username, String email, String photoUrl, String description) async {
+  static Future<void> createUser(List<String> username, String email, List<String> photoUrl, List<String> description) async {
 
     final time = DateTime.now().millisecondsSinceEpoch.toString();
 
     final chatUser = ChatUser(
-        photoUrl: photoUrl,
+        photoUrls: photoUrl,
         uid:  currentUser.uid,
         createdAt: time,
-        about: description,
+        abouts: description,
         lastActive: time,
         // isOnline: "",
         email: email,
         pushToken: '',
-        username: username
+        usernames: username
     );
 
 
@@ -174,16 +177,18 @@ class AuthMethods {
 //chats (collection) --> conversation_id(doc) --> messages(collection) --> message(doc)
 
 
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
   Future<String> updateUserProf({
-    required List<String> username,
+    required String userId,
+    // required List<String> username,
     required List<String> description,
     required List<Uint8List> files, // Change here
   }) async {
     String res = "Some error Occurred";
     try {
+      if(description.isNotEmpty && files.isNotEmpty ) {
 
         List<String> photoUrls1 = [];
         for (Uint8List file in files) {
@@ -192,20 +197,21 @@ class AuthMethods {
           photoUrls1.add(photoUrl);
         }
 
-        model.Users user = model.Users(
-          username: username,
-          uid: '',
-          photoUrl: photoUrls1,
-          email: '',
-          description: description,
-          followers: [],
-          following: [],
-        );
+        Map<String, dynamic> userData = {
+          // 'username': username,
+          'photoUrls': photoUrls1, // Store URLs in Firestore
+          'description': description,
+          // 'username': username,
 
-        // adding user in our database
-        // await _firestore.collection("users").doc(cred.user!.uid).set(user.toJson());
+        };
+
+        await FirebaseFirestore.instance.collection('users').doc(userId).update(userData);
 
         res = "success";
+      }
+      else{
+        res = "Please enter all the fields";
+      }
 
     } catch (err) {
       return err.toString();
@@ -213,7 +219,133 @@ class AuthMethods {
     return res;
   }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //
+  // static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUserForalumi(){
+  //   return FireStoreMethods.firestore.collection('users').where('uid', isNotEqualTo: auth.currentUser!.uid).snapshots();
+  // }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+  Future<String> updateUserchatPost({
+    required String userId,
+    // required List<String> username,
+    required List<String> description,
+    required List<Uint8List> files, // Change here
+  }) async {
+    String res = "Some error Occurred";
+    try {
+      if(files.isNotEmpty ) {
+
+        List<String> photoUrls1 = [];
+        for (Uint8List file in files) {
+          String photoUrl = await StorageMethods()
+              .uploadImageToStorage('profilePics', file, false);
+          photoUrls1.add(photoUrl);
+        }
+
+        Map<String, dynamic> userData = {
+          'photoUrls': photoUrls1,
+          'abouts': description,
+          // 'usernames': username,
+
+          // Store URLs in Firestore
+        };
+
+        await FirebaseFirestore.instance.collection('chatusers').doc(userId).update(userData);
+
+
+        res = "success";
+      }
+      else{
+        res = "Please enter all the fields";
+      }
+
+    } catch (err) {
+      return err.toString();
+    }
+    return res;
+  }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//   Future<String> updateUserPost({
+//     required String userId,
+//     required List<String> username,
+//     required List<String> description,
+//     required List<Uint8List> files, // Change here
+//   }) async {
+//     String res = "Some error Occurred";
+//     try {
+//       if(files.isNotEmpty ) {
+//
+//         List<String> photoUrls1 = [];
+//         for (Uint8List file in files) {
+//           String photoUrl = await StorageMethods()
+//               .uploadImageToStorage('profilePics', file, false);
+//           photoUrls1.add(photoUrl);
+//         }
+//
+//         Map<String, dynamic> userData = {
+//           'photoUrls': photoUrls1,
+//           // 'abouts': description,
+//           'username': username,
+//
+//           // Store URLs in Firestore
+//         };
+//
+//         await FirebaseFirestore.instance.collection('posts').doc(userId).update(userData);
+//
+//
+//         res = "success";
+//       }
+//       else{
+//         res = "Please enter all the fields";
+//       }
+//
+//     } catch (err) {
+//       return err.toString();
+//     }
+//     return res;
+//   }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // Future<String> updateUserEvents({
+  //   required String userEventId,
+  //   required List<String> username,
+  //   required List<Uint8List> files, // Change here
+  // }) async {
+  //   String res = "Some error Occurred";
+  //   try {
+  //     if(username.isNotEmpty  && files.isNotEmpty ) {
+  //
+  //       List<String> photoUrls1 = [];
+  //       for (Uint8List file in files) {
+  //         String photoUrl = await StorageMethods()
+  //             .uploadImageToStorage('profilePics', file, false);
+  //         photoUrls1.add(photoUrl);
+  //       }
+  //
+  //       Map<String, dynamic> userData = {
+  //         'username': username,
+  //         'photoUrl': photoUrls1, // Store URLs in Firestore
+  //       };
+  //
+  //       await FirebaseFirestore.instance.collection('events').doc(userEventId).update(userData);
+  //
+  //       res = "success";
+  //     }
+  //     else{
+  //       res = "Please enter all the fields";
+  //     }
+  //
+  //   } catch (err) {
+  //     return err.toString();
+  //   }
+  //   return res;
+  // }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // logging in user
   Future<String> loginUser({
@@ -242,4 +374,4 @@ class AuthMethods {
     await auth.signOut();
   }
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,38 +1,166 @@
+import 'package:alumniapp/resources/auth_methods.dart';
+import 'package:alumniapp/screens/profile_screen.dart';
 import 'package:alumniapp/utils/utils.dart';
-import 'package:alumniapp/widgets/text_field_input.dart';
+import 'package:alumniapp/widgets/textfieldForUpdateProf.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter/services.dart';
+import 'dart:async';
 
 class updateProfScreen extends StatefulWidget {
   final String uid;
-  const updateProfScreen({Key? key, required this.uid}) : super(key: key);
+  // final  postID;
+  const updateProfScreen({
+    Key? key,
+    required this.uid,
+  }) : super(key: key);
 
   @override
   State<updateProfScreen> createState() => _updateProfScreenState();
 }
 
 class _updateProfScreenState extends State<updateProfScreen> {
+  _updateProfScreenState() {
+    defaultProfPhoto();
+  }
+  // final TextEditingController _updateUsernameController =
+  //     TextEditingController();
+  final TextEditingController _updateDescriptionController =
+      TextEditingController();
 
-  final TextEditingController _updateUsernameController = TextEditingController();
-  final TextEditingController _updateDescriptionController = TextEditingController();
-
-  bool _isLoading = false;
+  bool _isPressed = false;
   var userData = {};
-  // int postLen = 0;
-  // int followers = 0;
-  // int following = 0;
-  // bool isFollowing = false;
+  bool _isLoading = false;
   bool isLoading = false;
   Uint8List _image = Uint8List(0);
+  Uint8List _image1 = Uint8List(0);
 
   @override
   void initState() {
     super.initState();
     getData();
   }
+
+  void defaultProfPhoto() async {
+    String imageUrl =
+        "https://i.pinimg.com/564x/36/fa/7b/36fa7b46c58c94ab0e5251ccd768d669.jpg";
+
+    Uint8List imageBytes = await getImageBytes(imageUrl);
+
+    setState(() {
+      _image1 = imageBytes;
+    });
+  }
+
+  void selectImage() async {
+    Uint8List im = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = im;
+    });
+  }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  void SaveUpdateProf() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    String res = await AuthMethods().updateUserProf(
+        userId: widget.uid,
+        // username: _updateUsernameController.text.isEmpty
+        //     ? [userData['username'][0]]
+        //     : [_updateUsernameController.text],
+        description: _updateDescriptionController.text.isEmpty
+            ? [userData['description'][0]]
+            : [_updateDescriptionController.text],
+        files: _image.isEmpty ? [_image1] : [_image]);
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    if (res != 'success') {
+      showSnackBar(context, res);
+    } else {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+            builder: (context) => ProfileScreen(
+                  uid: widget.uid,
+                )),
+      );
+    }
+  }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  void SaveUpdatechatuser() async {
+    // setState(() {
+    //   _isLoading = true;
+    //
+    // });
+
+    String res = await AuthMethods().updateUserchatPost(
+        userId: widget.uid,
+        // username: _updateUsernameController.text.isEmpty
+        //     ? [userData['username'][0]]
+        //     : [_updateUsernameController.text],
+        description: _updateDescriptionController.text.isEmpty
+            ? [userData['description'][0]]
+            : [_updateDescriptionController.text],
+        files: _image.isEmpty ? [_image1] : [_image]);
+
+    // setState(() {
+    //   _isLoading = true;
+    // });
+
+    if (res != 'success') {
+      showSnackBar(context, res);
+    } else {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+            builder: (context) => ProfileScreen(
+                  uid: widget.uid,
+                )),
+      );
+    }
+  }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//   void SaveUpdatepost() async {
+//     setState(() {
+//       _isLoading = true;
+//
+//     });
+//
+//     String res = await AuthMethods().updateUserPost(
+//         userId: widget.uid,
+//         username: _updateUsernameController.text.isEmpty
+//             ? [userData['username'][0]]
+//             : [_updateUsernameController.text],
+//         description: _updateDescriptionController.text.isEmpty
+//             ? [userData['description'][0]]
+//             : [_updateDescriptionController.text],
+//         files: _image.isEmpty ? [_image1] : [_image]);
+//
+//
+//     setState(() {
+//       _isLoading = true;
+//     });
+//
+//
+//     if (res != 'success') {
+//       showSnackBar(context, res);
+//     } else {
+//       Navigator.of(context).pushReplacement(
+//         MaterialPageRoute(
+//             builder: (context) => ProfileScreen(
+//               uid: widget.uid,
+//             )),
+//       );
+//     }
+//   }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   getData() async {
     setState(() {
@@ -44,21 +172,8 @@ class _updateProfScreenState extends State<updateProfScreen> {
           .doc(widget.uid)
           .get();
 
-      // get post lENGTH
-      // var postSnap = await FirebaseFirestore.instance
-      //     .collection('posts')
-      //     .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-      //     .get();
-
       // postLen = postSnap.docs.length;
       userData = userSnap.data()!;
-
-      // followers = userSnap.data()!['followers'].length;
-      // following = userSnap.data()!['following'].length;
-      // isFollowing = userSnap
-      //     .data()!['followers']
-      //     .contains(FirebaseAuth.instance.currentUser!.uid);
-      // setState(() {});
     } catch (e) {
       showSnackBar(
         context,
@@ -70,13 +185,7 @@ class _updateProfScreenState extends State<updateProfScreen> {
     });
   }
 
-  void selectImage() async {
-    Uint8List im = await pickImage(ImageSource.gallery);
-    setState(() {
-      _image = im;
-    });
-  }
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   @override
   Widget build(BuildContext context) {
     return isLoading
@@ -85,7 +194,7 @@ class _updateProfScreenState extends State<updateProfScreen> {
           )
         : Scaffold(
             appBar: AppBar(
-              backgroundColor: Colors.white,
+              backgroundColor: Colors.lightBlueAccent.shade100,
               title: Text(
                 // widget.userData['username'],
                 'Edit Your Profile',
@@ -100,18 +209,22 @@ class _updateProfScreenState extends State<updateProfScreen> {
                   children: [
                     Stack(
                       children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.grey,
-                          backgroundImage: NetworkImage(
-                            userData['photoUrls'][0],
-                          ),
-                          radius: 40,
-                        ),
+                        _image.isEmpty
+                            ? CircleAvatar(
+                                backgroundColor: Colors.grey,
+                                backgroundImage: MemoryImage(_image1),
+                                radius: 40,
+                              )
+                            : CircleAvatar(
+                                backgroundColor: Colors.grey,
+                                backgroundImage: MemoryImage(_image),
+                                radius: 40,
+                              ),
                         Positioned(
                           bottom: -10,
                           left: 45,
                           child: IconButton(
-                            onPressed: () {},
+                            onPressed: selectImage,
                             icon: const Icon(
                               Icons.camera_alt,
                               color: Colors.black,
@@ -121,83 +234,123 @@ class _updateProfScreenState extends State<updateProfScreen> {
                         )
                       ],
                     ),
-                    // Container(
-                    //   alignment: Alignment.centerLeft,
-                    //   padding: const EdgeInsets.only(
-                    //     top: 15,
-                    //   ),
-                    //   child: Center(
-                    //     child: Text(
-                    //       userData['username'][0],
-                    //       style: const TextStyle(
-                    //           fontWeight: FontWeight.bold,
-                    //           color: Colors.black,
-                    //           fontSize: 17),
-                    //     ),
-                    //   ),
-                    // ),
+
                     const SizedBox(height: 25),
 
-                    TextFieldInput(
-                      hintText: '${userData['username'][0]}',
-                      textInputType: TextInputType.text,
-                      textEditingController: _updateUsernameController,
-
-
+                    Text(
+                      userData['username'][0],
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 17),
                     ),
+
+                    // TextFieldInputForProf(
+                    //   hintText: 'Update your username',
+                    //   textInputType: TextInputType.text,
+                    //   textEditingController: _updateUsernameController,
+                    // ),
+
                     const SizedBox(height: 25),
 
-                    TextFieldInput(
-                      hintText: '${userData['description'][0]}',
+                    TextFieldInputForProf(
+                      hintText: 'Update your description',
                       textInputType: TextInputType.text,
                       textEditingController: _updateDescriptionController,
-
-
                     ),
-                    // Container(
-                    //   alignment: Alignment.centerLeft,
-                    //   padding: const EdgeInsets.only(
-                    //     top: 1,
-                    //   ),
-                    //   child: Center(
-                    //     child: Text(
-                    //       userData['description'][0],
-                    //       style: TextStyle(color: Colors.blue),
-                    //     ),
-                    //   ),
-                    // ),
+
                     const SizedBox(height: 25),
-                    InkWell(
-                      onTap: () {},
-                      child: Container(
+
+                    Container(
+                      height: 60.0,
+                      width: 200.0,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          if (_image.isEmpty) {
+                            bool userConfirmed = await showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop(
+                                          true); // Notify that user confirmed
+                                    },
+                                    child: const Text('Yes'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop(
+                                          false); // Notify that user cancelled
+                                    },
+                                    child: const Text('Cancel'),
+                                  ),
+                                ],
+                                title: const Text('Are You Sure !!!'),
+                                contentPadding: const EdgeInsets.all(20),
+                                content:
+                                    const Text('Remove Your Profile Picture'),
+                              ),
+                            );
+
+                            if (userConfirmed == true) {
+                              SaveUpdateProf();
+                              SaveUpdatechatuser();
+                            }
+                          } else {
+                            SaveUpdateProf();
+                            SaveUpdatechatuser();
+                          }
+
+                          setState(() {
+                            _isPressed = true;
+                          });
+
+                          Future.delayed(Duration(milliseconds: 100), () {
+                            setState(() {
+                              _isPressed = false;
+                            });
+                          });
+                        },
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                              if (_isPressed) {
+                                return Colors
+                                    .black.withOpacity(10); // Change color when hovered
+                              }
+                              return Colors.lightBlue.shade200;
+                            },
+                          ),
+                        ),
                         child: _isLoading
                             ? const Center(
                                 child: CircularProgressIndicator(
-                                  color: Colors.white,
+                                  color: Colors.blue,
                                 ),
                               )
-                            : const Text(
-                                'Save',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15),
-                              ),
-                        width: double.infinity,
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(vertical: 18),
-                        decoration: const ShapeDecoration(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(52),
-                              ),
-                            ),
-                            color: Colors.blue),
+                            : const Text("Save",style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 23),),
                       ),
                     ),
                   ],
                 ),
               ),
             ]));
+  }
+
+  Future<Uint8List> getImageBytes(String imageUrl) async {
+    // Fetch the image from the URL
+    http.Response response = await http.get(Uri.parse(imageUrl));
+
+    // Check if the request was successful (status code 200)
+    if (response.statusCode == 200) {
+      // Convert the response body to a Uint8List
+      Uint8List bytes = response.bodyBytes;
+      return bytes;
+    } else {
+      // If the request failed, return null or handle the error accordingly
+      throw Exception('Failed to load image');
+    }
   }
 }

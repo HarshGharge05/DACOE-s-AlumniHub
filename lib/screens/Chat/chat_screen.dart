@@ -119,7 +119,7 @@ class _ChatScreenState extends State<ChatScreen> {
               child: CachedNetworkImage(
                   width: 45,
                   height: 45,
-                  imageUrl: widget.user.photoUrl,
+                  imageUrl: widget.user.photoUrls[0],
                   // placeholder: (context, url) => CircularProgressIndicator(),
                   errorWidget: (context, url, error) => CircleAvatar(child: Icon(CupertinoIcons.person,),)
               ),
@@ -133,7 +133,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 //user name
                 Container(
                     padding: EdgeInsets.only(top: 40, left: 10),
-                    child: Text(widget.user.username, style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w700),)),
+                    child: Text(widget.user.usernames[0], style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w700),)),
 
                 //last time of user
                 Container(

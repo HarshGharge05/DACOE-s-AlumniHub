@@ -42,17 +42,17 @@ class _ChatUserCardState extends State<ChatUserCard> {
               child: CachedNetworkImage(
                 width: 45,
                 height: 45,
-                imageUrl: widget.user.photoUrl,
+                imageUrl: widget.user.photoUrls[0],
                 // placeholder: (context, url) => CircularProgressIndicator(),
                 errorWidget: (context, url, error) => CircleAvatar(child: Icon(CupertinoIcons.person,),)
               ),
             ),
 
             //user name
-            title: Text(widget.user.username,),
+            title: Text(widget.user.usernames[0],),
 
             //last message
-            subtitle: Text(widget.user.about, maxLines: 1,),
+            subtitle: Text(widget.user.abouts[0], maxLines: 1,),
 
             //last message time
             trailing: Container(

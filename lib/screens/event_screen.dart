@@ -27,21 +27,12 @@ class _FeedScreenState extends State<EventScreen> {
 
           centerTitle: false,
           title: Text("Events",style: TextStyle(color: Colors.black),),
-        // actions: [
-        //   IconButton(
-        //     icon: const Icon(
-        //       Icons.message_rounded,
-        //       color: Colors.black,
-        //     ),
-        //     onPressed: () {},
-        //   ),
-        // ],
+
       ),
       body: StreamBuilder(
 
         stream: FirebaseFirestore.instance.collection('events').snapshots(),
-        builder: (context,
-            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+        builder: (context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(),

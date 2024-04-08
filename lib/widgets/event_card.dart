@@ -286,7 +286,7 @@ class _EventCardState extends State<EventCard> {
                       style: const TextStyle(color: Colors.black),
                       children: [
                         TextSpan(
-                          text: widget.snap['username'][0].toString(),
+                          text: '${widget.snap['username'][0].toString()}',
                           style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20

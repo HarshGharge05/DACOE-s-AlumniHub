@@ -63,6 +63,7 @@ class Users {
     required this.following,
   });
 
+
   static Users fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
 

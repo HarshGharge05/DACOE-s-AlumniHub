@@ -11,7 +11,9 @@ import 'package:alumniapp/widgets/follow_button.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String uid;
-  const ProfileScreen({Key? key, required this.uid}) : super(key: key);
+  // final postID;
+
+   ProfileScreen({Key? key, required this.uid,}) : super(key: key);
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -20,12 +22,14 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
 
   var userData = {};
+  // var userDataforpost = {};
+
   int postLen = 0;
   int followers = 0;
   int following = 0;
   bool isFollowing = false;
   bool isLoading = false;
-  Uint8List _image =Uint8List(0);
+  // Uint8List _image =Uint8List(0);
   @override
   void initState() {
     super.initState();
@@ -53,8 +57,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
           .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .get();
 
+      // var postSnapPostID = await FirebaseFirestore.instance
+      //     .collection('posts')
+      //     .doc(widget.postID)
+      //     .get();
+
       postLen = postSnap.docs.length;
       userData = userSnap.data()!;
+      // userDataforpost = postSnapPostID.data()!;
 
       followers = userSnap.data()!['followers'].length;
       following = userSnap.data()!['following'].length;
@@ -81,9 +91,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           )
         : Scaffold(
             appBar: AppBar(
-              backgroundColor: Colors.white,
+              backgroundColor: Colors.lightBlueAccent.shade100,
               title: Text(
-                userData['username'][0],
+                'Profile',
                 style: TextStyle(color: Colors.black),
               ),
               centerTitle: false,
@@ -102,15 +112,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           radius: 40,
                         ),
-                        FirebaseAuth.instance.currentUser!.uid ==
-                            widget.uid ?
+                        FirebaseAuth.instance.currentUser!.uid == widget.uid ?
                         Positioned(
                           bottom: -10,
                           left: 45,
                           child: IconButton(
                             onPressed: () =>  Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: ((context) => updateProfScreen(uid: widget.uid)),
+                                builder: ((context) => updateProfScreen(uid: widget.uid,)),
                               ),
                             ),
                             icon: const Icon(

@@ -48,6 +48,8 @@ class _RegisterScreenPageState extends State<RegisterScreenPage> {
      String imageUrl =
          'https://i.pinimg.com/564x/36/fa/7b/36fa7b46c58c94ab0e5251ccd768d669.jpg';
 
+     // String imageUrl = '${}';
+
      // Fetch image bytes from the URL
      Uint8List imageBytes = await getImageBytes(imageUrl);
 

@@ -18,5 +18,6 @@ List<Widget> homeScreenItems = [
   const SearchScreen(),
   ProfileScreen(
     uid: FirebaseAuth.instance.currentUser!.uid,
+    // postID: FirebaseAuth.instance.currentUser!.uid,
   ),
 ];
