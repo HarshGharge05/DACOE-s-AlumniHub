@@ -46,8 +46,7 @@ class MyApp extends StatelessWidget {
             backgroundColor: Colors.blue,
           )
         ),
-        home:
-        StreamBuilder(
+        home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.active) {

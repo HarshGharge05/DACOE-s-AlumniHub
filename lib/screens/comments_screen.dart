@@ -48,7 +48,13 @@ class _CommentsScreenState extends State<CommentsScreen> {
     final Users user = Provider.of<UserProvider>(context).getUser;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Icon(Icons.arrow_back, color: Colors.black,
+            )),
         backgroundColor: Colors.white,
         title: const Text(
           'Comments',

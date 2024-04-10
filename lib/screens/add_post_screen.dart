@@ -254,6 +254,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
           )
         : (f == 0)
             ? Scaffold(
+                backgroundColor: Colors.white,
                 appBar: AppBar(
                   backgroundColor: Colors.white,
                   leading: IconButton(

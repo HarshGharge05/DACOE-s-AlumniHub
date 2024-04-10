@@ -14,7 +14,7 @@ class _AlumniPageState extends State<AlumniPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.lightBlueAccent.shade400,
           title: Form(
             child: Container(
               decoration: BoxDecoration(

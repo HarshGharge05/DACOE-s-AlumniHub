@@ -28,6 +28,7 @@ class _SearchScreenState extends State<SearchScreen> {
     Size screenSize = MediaQuery.of(context).size;
     double textSize = screenSize.width * 0.04;
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         // leading: GestureDetector(
@@ -36,7 +37,7 @@ class _SearchScreenState extends State<SearchScreen> {
         //     Icons.arrow_back,
         //   ),
         // ),
-        backgroundColor: Colors.lightBlueAccent.shade100,
+        backgroundColor: Colors.lightBlueAccent.shade400,
         title:
             // Text("OUR Alumni"),
             Form(
@@ -70,6 +71,7 @@ class _SearchScreenState extends State<SearchScreen> {
             itemCount: (snapshot.data! as dynamic).docs.length,
             itemBuilder: (context, index) {
               return InkWell(
+                splashColor: Colors.grey.shade300,
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => ProfileScreen(
@@ -81,9 +83,12 @@ class _SearchScreenState extends State<SearchScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 15,right: 10, left: 10),
                   child: Card(
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                    elevation: 0.5,
+                    color: Colors.white,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.brown[50],
+                        color: Colors.white,
                         border: Border.all(
                           color: width > webScreenSize
                               ? Colors.blueGrey
@@ -113,12 +118,12 @@ class _SearchScreenState extends State<SearchScreen> {
                             Text(
                               (snapshot.data! as dynamic).docs[index]['username'][0],
                               style:
-                                  TextStyle(color: Colors.black, fontSize: textSize, fontWeight: FontWeight.bold),
+                                  TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
                             ),
                             Text(
                               (snapshot.data! as dynamic).docs[index]['description'][0],
                               style:
-                              TextStyle(color: Colors.blue, fontSize: 10, fontWeight: FontWeight.bold),
+                              TextStyle(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.normal,),
                             ),
                           ],
                         ),

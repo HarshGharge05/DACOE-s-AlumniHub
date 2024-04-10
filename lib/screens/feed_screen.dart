@@ -25,15 +25,15 @@ class _FeedScreenState extends State<FeedScreen> {
           ? null
           : AppBar(
               automaticallyImplyLeading: false,
-              backgroundColor: Colors.lightBlueAccent.shade100,
+              backgroundColor: Colors.lightBlueAccent.shade400,
 
               centerTitle: false,
-              title: Text("AlumniHub",style: TextStyle(color: Colors.black),),
+              title: Text("AlumniHub",style: TextStyle(color: Colors.white),),
               actions: [
                 IconButton(
                   icon: const Icon(
                     Icons.message_rounded,
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => ChatHome()));
