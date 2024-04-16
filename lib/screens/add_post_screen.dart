@@ -228,14 +228,18 @@ class _AddPostScreenState extends State<AddPostScreen> {
                       );
                     }
                   },
-                  child: Container(
-                    width: 150,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      color: Colors.blue, // Change color as needed
+                  child: Card(
+                    elevation: 5,
+                    child: Container(
+                      width: 150,
+                      height: 150,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(13),
+                        shape: BoxShape.rectangle,
+                        color: Colors.blue, // Change color as needed
+                      ),
+                      child: const Icon(Icons.image, color: Colors.white, size: 50),
                     ),
-                    child: const Icon(Icons.image, color: Colors.white, size: 50),
                   ),
                 ),
                 GestureDetector(
@@ -250,14 +254,18 @@ class _AddPostScreenState extends State<AddPostScreen> {
                       );
                     }
                   },
-                  child: Container(
-                    width: 150,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      color: Colors.green, // Change color as needed
+                  child: Card(
+                    elevation: 5,
+                    child: Container(
+                      width: 150,
+                      height: 150,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(13),
+                        shape: BoxShape.rectangle,
+                        color: Colors.green, // Change color as needed
+                      ),
+                      child: const Icon(Icons.event, color: Colors.white, size: 50),
                     ),
-                    child: const Icon(Icons.event, color: Colors.white, size: 50),
                   ),
                 ),
               ],
@@ -266,8 +274,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: const [
-                Text('Add Post Image', style: TextStyle(color: Colors.black)),
-                Text('Add Event Image', style: TextStyle(color: Colors.black)),
+                Text('Add Post Image', style: TextStyle(color: Colors.grey)),
+                Text('Add Event Image', style: TextStyle(color: Colors.grey)),
               ],
             ),
           ],
