@@ -199,15 +199,12 @@ class _AddPostScreenState extends State<AddPostScreen> {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          color: Colors.black,
-          onPressed: clearImageForPostAndEvent,
-        ),
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.blue.shade400,
         title: const Text(
-          'Add Post',
+          'Add Post / Event',
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: false,
