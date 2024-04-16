@@ -205,7 +205,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
         backgroundColor: Colors.blue.shade400,
         title: const Text(
           'Add Post / Event',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
         centerTitle: false,
       ),
@@ -232,7 +232,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     width: 150,
                     height: 150,
                     decoration: BoxDecoration(
-                      shape: BoxShape.circle,
+                      shape: BoxShape.rectangle,
                       color: Colors.blue, // Change color as needed
                     ),
                     child: const Icon(Icons.image, color: Colors.white, size: 50),
@@ -254,7 +254,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     width: 150,
                     height: 150,
                     decoration: BoxDecoration(
-                      shape: BoxShape.circle,
+                      shape: BoxShape.rectangle,
                       color: Colors.green, // Change color as needed
                     ),
                     child: const Icon(Icons.event, color: Colors.white, size: 50),
