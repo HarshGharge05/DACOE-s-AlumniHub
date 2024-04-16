@@ -193,12 +193,18 @@ class _updateProfScreenState extends State<updateProfScreen> {
             child: CircularProgressIndicator(),
           )
         : Scaffold(
+            backgroundColor: Colors.white,
             appBar: AppBar(
-              backgroundColor: Colors.lightBlueAccent.shade100,
+              automaticallyImplyLeading: false,
+              leading: GestureDetector(
+                onTap: () => Navigator.pop(context),
+                  child: Icon(Icons.arrow_back, color: Colors.white,
+                  )),
+              backgroundColor: Colors.lightBlueAccent.shade400,
               title: Text(
                 // widget.userData['username'],
                 'Edit Your Profile',
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(color: Colors.white),
               ),
               centerTitle: false,
             ),
@@ -254,12 +260,12 @@ class _updateProfScreenState extends State<updateProfScreen> {
                     const SizedBox(height: 25),
 
                     TextFieldInputForProf(
-                      hintText: 'Update your description',
+                      hintText: 'Update your About section',
                       textInputType: TextInputType.text,
                       textEditingController: _updateDescriptionController,
                     ),
 
-                    const SizedBox(height: 25),
+                    const SizedBox(height: 40),
 
                     Container(
                       height: 60.0,
@@ -320,7 +326,7 @@ class _updateProfScreenState extends State<updateProfScreen> {
                                 return Colors
                                     .black.withOpacity(10); // Change color when hovered
                               }
-                              return Colors.lightBlue.shade200;
+                              return Colors.lightBlueAccent.shade400;
                             },
                           ),
                         ),

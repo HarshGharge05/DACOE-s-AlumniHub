@@ -47,7 +47,13 @@ class _CommentsScreenforEventState extends State<CommentsScreenforEvent> {
     final Users user = Provider.of<UserProvider>(context).getUser;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Icon(Icons.arrow_back, color: Colors.black,
+            )),
         backgroundColor: Colors.white,
         title: const Text(
           'Comments',
@@ -97,7 +103,7 @@ class _CommentsScreenforEventState extends State<CommentsScreenforEvent> {
                     controller: commentEditingControllerFOR,
                     decoration: InputDecoration(
                       hintText: 'Comment as ${user.username}...',
-                      hintStyle: TextStyle(color: Colors.black54),
+                      hintStyle: TextStyle(color: Colors.grey),
                       border: InputBorder.none,
                     ),
                   ),

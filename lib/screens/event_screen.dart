@@ -23,10 +23,10 @@ class _FeedScreenState extends State<EventScreen> {
           ? null
           : AppBar(
             automaticallyImplyLeading: false,
-            backgroundColor: Colors.lightBlueAccent.shade100,
+            backgroundColor: Colors.lightBlueAccent.shade400,
 
           centerTitle: false,
-          title: Text("Events",style: TextStyle(color: Colors.black),),
+          title: Text("Events",style: TextStyle(color: Colors.white),),
 
       ),
       body: StreamBuilder(

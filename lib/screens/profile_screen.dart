@@ -90,11 +90,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: CircularProgressIndicator(),
           )
         : Scaffold(
+            backgroundColor: Colors.white,
             appBar: AppBar(
-              backgroundColor: Colors.lightBlueAccent.shade100,
+              automaticallyImplyLeading: false,
+              backgroundColor: Colors.lightBlueAccent.shade400,
+              //leading: Icon(Icons.person),
               title: Text(
                 'Profile',
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(color: Colors.white,),
               ),
               centerTitle: false,
             ),
@@ -185,8 +188,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             height: 50,
                                             child: FollowButton(
                                               text: 'Sign Out',
-                                              backgroundColor:
-                                                  Colors.lightBlueAccent,
+                                              backgroundColor: Colors.lightBlueAccent.shade400,
                                               textColor: Colors.white,
                                               borderColor: Colors.black,
                                               function: () async {

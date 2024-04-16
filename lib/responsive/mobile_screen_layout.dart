@@ -58,9 +58,9 @@ import 'package:alumniapp/utils/global_variable.dart';
           index: 0,
 
           backgroundColor: Colors.white,
-          buttonBackgroundColor: Colors.lightBlueAccent,
+          buttonBackgroundColor: Colors.lightBlueAccent.shade400,
           height: 60,
-          color: Colors.lightBlueAccent.shade100,
+          color: Colors.lightBlueAccent.shade400,
 
           items: const <Widget>[
             Icon(Icons.home_outlined, color: Colors.black,),

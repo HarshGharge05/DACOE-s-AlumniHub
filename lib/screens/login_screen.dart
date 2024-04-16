@@ -67,130 +67,133 @@ class _LoginScreenPageState extends State<LoginScreenPage> {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-      backgroundColor: Colors.grey[200],
-      body: ListView(
-        children: <Widget>[
-          SafeArea(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 22),
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  // Flexible(child: Container(), flex: 2),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  const Icon(
-                    Icons.lock,
-                    color: Colors.black,
-                    size: 80,
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  Text(
-                      'Welcome back to DACOE!',
-                      style: TextStyle(color: Colors.blue, fontSize: 22, fontWeight: FontWeight.w500),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        backgroundColor: Colors.grey[200],
+        body: ListView(
+          children: <Widget>[
+            SafeArea(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 22),
+                width: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    // Flexible(child: Container(), flex: 2),
+                    const SizedBox(
+                      height: 40,
                     ),
-
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: SizedBox(height: 25),
-                  ),
-                  TextFieldInput(
-                    hintText: 'Email',
-                    textInputType: TextInputType.emailAddress,
-                    textEditingController: _emailController,
-
-
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      height: 5,
+                    const Icon(
+                      Icons.lock,
+                      color: Colors.black,
+                      size: 80,
                     ),
-                  ),
-                  TextFieldInput(
-                    hintText: 'Password',
-                    textInputType: TextInputType.text,
-                    textEditingController: _passwordController,
-                    isPass: true,
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    Text(
+                        'Welcome back to DACOE!',
+                        style: TextStyle(color: Colors.blue, fontSize: 22, fontWeight: FontWeight.w500),
+                      ),
 
-                  ),
-                  const SizedBox(height: 25),
-                  InkWell(
-                    onTap: loginUser,
-                    child: Container(
-                      child: _isLoading
-                          ? const Center(
-                          child: CircularProgressIndicator(
-                          color: Colors.white,
-                        ),
-                      )
-                          : const Text(
-                        'Sign in',
-                        style: TextStyle(
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: SizedBox(height: 25),
+                    ),
+                    TextFieldInput(
+                      hintText: 'Email',
+                      textInputType: TextInputType.emailAddress,
+                      textEditingController: _emailController,
+
+
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        height: 5,
+                      ),
+                    ),
+                    TextFieldInput(
+                      hintText: 'Password',
+                      textInputType: TextInputType.text,
+                      textEditingController: _passwordController,
+                      isPass: true,
+
+                    ),
+                    const SizedBox(height: 25),
+                    InkWell(
+                      onTap: loginUser,
+                      child: Container(
+                        child: _isLoading
+                            ? const Center(
+                            child: CircularProgressIndicator(
                             color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25),
-                      ),
-                      width: double.infinity,
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(vertical: 18),
-                      decoration: const ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(52),
-                            ),
                           ),
-                          color: Colors.blue),
-                    ),
-                  ),
-                  Divider(height: 60,endIndent: 50, indent: 50,),
-                  // Flexible(child: Container(), flex: 2),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        child: Text(
-                          "Not a member?",
+                        )
+                            : const Text(
+                          'Sign In',
                           style: TextStyle(
-                              color: Colors.grey,
-                            fontSize: 20
-                          ),),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 8,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 25),
                         ),
-                      ),
-
-                      SizedBox(
-                        width: 10,
-                      ),
-                      GestureDetector(
-                        onTap: navigateToRegister,
-                        child: Container(
-                          child: Text(
-                            "Register now",
-                            style: TextStyle(
-                              fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.blue
+                        width: double.infinity,
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.symmetric(vertical: 18),
+                        decoration: const ShapeDecoration(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(52),
+                              ),
                             ),
-                          ),
+                            color: Colors.blue),
+                      ),
+                    ),
+                    Divider(height: 60,endIndent: 50, indent: 50, color: Colors.black,),
+                    // Flexible(child: Container(), flex: 2),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          child: Text(
+                            "Not a member?",
+                            style: TextStyle(
+                                color: Colors.grey,
+                              fontSize: 20
+                            ),),
                           padding: const EdgeInsets.symmetric(
                             vertical: 8,
                           ),
                         ),
-                      )
-                    ],
-                  )
-                ],
+
+                        SizedBox(
+                          width: 10,
+                        ),
+                        GestureDetector(
+                          onTap: navigateToRegister,
+                          child: Container(
+                            child: Text(
+                              "Register Now",
+                              style: TextStyle(
+                                fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blue
+                              ),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 8,
+                            ),
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

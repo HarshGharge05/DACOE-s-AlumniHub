@@ -22,11 +22,11 @@ class _UserListScreenState extends State<UserListScreen> {
       appBar: width > webScreenSize
           ? null
           : AppBar(
-        backgroundColor: Colors.brown.shade200,
+          backgroundColor: Colors.brown.shade200,
 
-        centerTitle: false,
-        title: Text("OUR Alumni",style: TextStyle(color: Colors.black),),
-        actions: [
+          centerTitle: false,
+          title: Text("OUR Alumni",style: TextStyle(color: Colors.black),),
+          actions: [
           IconButton(
             icon: const Icon(
               Icons.manage_search,
@@ -44,7 +44,6 @@ class _UserListScreenState extends State<UserListScreen> {
         ],
       ),
       body: StreamBuilder(
-
             stream: FirebaseFirestore.instance.collection('users').snapshots(),
             builder: (context,
                 AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {

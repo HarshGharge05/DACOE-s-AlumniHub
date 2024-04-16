@@ -1,10 +1,12 @@
 // import 'package:alumniapp/widgets/alumni_card.dart';
+import 'package:alumniapp/resources/auth_methods.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:alumniapp/screens/profile_screen.dart';
 
+import '../resources/firestore_methods.dart';
 import '../utils/global_variable.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -26,15 +28,23 @@ class _SearchScreenState extends State<SearchScreen> {
     Size screenSize = MediaQuery.of(context).size;
     double textSize = screenSize.width * 0.04;
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.lightBlueAccent.shade100,
+        automaticallyImplyLeading: false,
+        // leading: GestureDetector(
+        //   onTap: () => Navigator.pop(context),
+        //   child: Icon(
+        //     Icons.arrow_back,
+        //   ),
+        // ),
+        backgroundColor: Colors.lightBlueAccent.shade400,
         title:
             // Text("OUR Alumni"),
             Form(
-          child: TextFormField(
+            child: TextFormField(
             controller: searchController,
             decoration: const InputDecoration(
-                labelText: 'Search for Our Alumni...',
+                labelText: 'Search for Alumni...',
                 labelStyle: TextStyle(color: Colors.black)),
             cursorColor: Colors.black,
             style: TextStyle(color: Colors.white),
@@ -46,11 +56,11 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ),
       ),
-      body: FutureBuilder(
-        future: FirebaseFirestore.instance.collection('users').where(
-          ['username'][0], isNotEqualTo: auth.currentUser!.uid,
-          isGreaterThanOrEqualTo: [searchController.text],
-        ).get(),
+      body: StreamBuilder(
+
+        //get all user for alumni page except logged in user
+        stream: FireStoreMethods.firestore.collection('users').where('uid', isNotEqualTo: auth.currentUser!.uid).snapshots(),
+
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const Center(
@@ -61,6 +71,7 @@ class _SearchScreenState extends State<SearchScreen> {
             itemCount: (snapshot.data! as dynamic).docs.length,
             itemBuilder: (context, index) {
               return InkWell(
+                splashColor: Colors.grey.shade300,
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => ProfileScreen(
@@ -72,9 +83,12 @@ class _SearchScreenState extends State<SearchScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 15,right: 10, left: 10),
                   child: Card(
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                    elevation: 0.5,
+                    color: Colors.white,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.brown[50],
+                        color: Colors.white,
                         border: Border.all(
                           color: width > webScreenSize
                               ? Colors.blueGrey
@@ -104,12 +118,12 @@ class _SearchScreenState extends State<SearchScreen> {
                             Text(
                               (snapshot.data! as dynamic).docs[index]['username'][0],
                               style:
-                                  TextStyle(color: Colors.black, fontSize: textSize, fontWeight: FontWeight.bold),
+                                  TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
                             ),
                             Text(
                               (snapshot.data! as dynamic).docs[index]['description'][0],
                               style:
-                              TextStyle(color: Colors.blue, fontSize: 10, fontWeight: FontWeight.bold),
+                              TextStyle(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.normal,),
                             ),
                           ],
                         ),
