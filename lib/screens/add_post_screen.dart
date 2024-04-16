@@ -275,6 +275,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: const [
                 Text('Add Post Image', style: TextStyle(color: Colors.grey)),
+                SizedBox(width: 5,),
                 Text('Add Event Image', style: TextStyle(color: Colors.grey)),
               ],
             ),
