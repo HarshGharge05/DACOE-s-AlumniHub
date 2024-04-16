@@ -202,7 +202,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.blue.shade400,
+        backgroundColor: Colors.lightBlueAccent.shade400,
         title: const Text(
           'Add Post / Event',
           style: TextStyle(color: Colors.white),
