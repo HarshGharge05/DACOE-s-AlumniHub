@@ -6,7 +6,7 @@ import 'package:alumniapp/screens/add_post_screen.dart';
 import 'package:alumniapp/screens/feed_screen.dart';
 import 'package:alumniapp/screens/event_screen.dart';
 import 'package:alumniapp/screens/profile_screen.dart';
-import 'package:alumniapp/screens/search_screen.dart';
+import 'package:alumniapp/screens/AlumniScreen.dart';
 
 const webScreenSize = 600;
 
@@ -15,7 +15,7 @@ List<Widget> homeScreenItems = [
   const EventScreen(),
   const AddPostScreen(),
   // const AlumniPage(),
-  const SearchScreen(),
+  const ScreenHome(),
   ProfileScreen(
     uid: FirebaseAuth.instance.currentUser!.uid,
     // postID: FirebaseAuth.instance.currentUser!.uid,

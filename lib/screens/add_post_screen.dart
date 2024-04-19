@@ -22,7 +22,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
   bool isLoading = false;
   int f = 0;
   final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _descriptionControllerforEvent = TextEditingController();
+  final TextEditingController _descriptionControllerforEvent =
+      TextEditingController();
 
   //--------------------------------------------------------For Post----------------------------------------------------------------------------------
   _selectImageForPost(BuildContext parentContext) async {
@@ -65,7 +66,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
     );
   }
 
-  void postImage(String uid, List<String> username, List<String> profImage) async {
+  void postImage(
+      String uid, List<String> username, List<String> profImage) async {
     setState(() {
       isLoading = true;
     });
@@ -152,7 +154,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
     );
   }
 
-  void eventImage(String uid, List<String> username, List<String> profImage) async {
+  void eventImage(
+      String uid, List<String> username, List<String> profImage) async {
     setState(() {
       isLoading = true;
     });
@@ -214,44 +217,83 @@ class _AddPostScreenState extends State<AddPostScreen> {
   }
 //------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
   @override
   Widget build(BuildContext context) {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
 
     return (_fileforpost == null && _fileforevent == null)
-        ? Column(
-            children: <Widget>[
-              const SizedBox(
-                height: 250,
+        ? Scaffold(
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              backgroundColor: Colors.lightBlueAccent.shade400,
+              title: const Text(
+                'Add Post / Event',
+                style: TextStyle(color: Colors.white),
               ),
-              Center(
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.upload,
-                    color: Colors.black,
-                    size: 50,
+              centerTitle: false,
+            ),
+            body: Center(
+              child: Column(
+                children: <Widget>[
+                  const SizedBox(
+                    height: 200,
                   ),
-                  onPressed: () => _selectImageForPost(context),
-                ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                            _selectImageForPost(context);
+                        },
+                        child: Card(
+                          elevation: 5,
+                          child: Container(
+                            width: 150,
+                            height: 150,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(13),
+                              shape: BoxShape.rectangle,
+                              color: Colors.blue, // Change color as needed
+                            ),
+                            child: const Icon(Icons.image, color: Colors.white, size: 50),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                            _selectImageForEvent(context);
+                        },
+                        child: Card(
+                          elevation: 5,
+                          child: Container(
+                            width: 150,
+                            height: 150,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(13),
+                              shape: BoxShape.rectangle,
+                              color: Colors.green, // Change color as needed
+                            ),
+                            child: const Icon(Icons.event, color: Colors.white, size: 50),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: const [
+                      Text('Add Post Image', style: TextStyle(color: Colors.grey)),
+                      SizedBox(width: 5,),
+                      Text('Add Event Image', style: TextStyle(color: Colors.grey)),
+                    ],
+                  ),
+
+                ],
               ),
-              const Text(
-                "Click to upload a Post",
-                style: TextStyle(color: Colors.black54, fontSize: 25),
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.upload,
-                  color: Colors.black,
-                  size: 50,
-                ),
-                onPressed: () => _selectImageForEvent(context),
-              ),
-              const Text(
-                "Click to upload a Event",
-                style: TextStyle(color: Colors.black54, fontSize: 25),
-              ),
-            ],
-          )
+            ))
         : (f == 0)
             ? Scaffold(
                 backgroundColor: Colors.white,
@@ -274,7 +316,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
                         userProvider.getUser.username,
                         userProvider.getUser.photoUrl,
                         // userProfilePhotoUrl,
-
                       ),
                       child: const Text(
                         "Post",
@@ -425,3 +466,4 @@ class _AddPostScreenState extends State<AddPostScreen> {
               );
   }
 }
+

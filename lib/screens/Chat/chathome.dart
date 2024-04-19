@@ -296,7 +296,8 @@ class _ChatHomeState extends State<ChatHome> {
                       itemBuilder: (context, index) {
                         return ChatUserCard(
                             user:
-                            _isSearching ? _searchList[index] : list[index]);
+                            _isSearching ? _searchList[index] : list[index],
+                            );
                       },
                     );
                   } else {
