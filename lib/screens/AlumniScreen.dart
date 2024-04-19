@@ -196,12 +196,12 @@ class _ScreenHome extends State<ScreenHome> {
           backgroundColor: Colors.white,
           appBar: AppBar(
             backgroundColor: Colors.lightBlueAccent.shade400,
-            leading: GestureDetector(
-              onTap: () => Navigator.pop(context),
-              child: Icon(
-                Icons.arrow_back,
-              ),
-            ),
+            // leading: GestureDetector(
+            //   onTap: () => Navigator.pop(context),
+            //   child: Icon(
+            //     Icons.arrow_back,
+            //   ),
+            // ),
             iconTheme: IconThemeData(color: Colors.white),
             centerTitle: true,
             title: _isSearching
@@ -234,7 +234,7 @@ class _ScreenHome extends State<ScreenHome> {
               },
             )
                 : Text(
-              'ChatUp',
+              "Alumni's",
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 22,
