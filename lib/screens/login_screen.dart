@@ -1,12 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:alumniapp/resources/auth_methods.dart';
 import 'package:alumniapp/responsive/mobile_screen_layout.dart';
 import 'package:alumniapp/responsive/responsive_layout.dart';
 import 'package:alumniapp/responsive/web_screen_layout.dart';
 import 'package:alumniapp/screens/RegisterPage_screen.dart';
-import 'package:alumniapp/utils/global_variable.dart';
 import 'package:alumniapp/utils/utils.dart';
 import 'package:alumniapp/widgets/text_field_input.dart';
 
@@ -80,7 +78,6 @@ class _LoginScreenPageState extends State<LoginScreenPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    // Flexible(child: Container(), flex: 2),
                     const SizedBox(
                       height: 40,
                     ),
@@ -151,7 +148,7 @@ class _LoginScreenPageState extends State<LoginScreenPage> {
                       ),
                     ),
                     Divider(height: 60,endIndent: 50, indent: 50, color: Colors.black,),
-                    // Flexible(child: Container(), flex: 2),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -198,3 +195,4 @@ class _LoginScreenPageState extends State<LoginScreenPage> {
     );
   }
 }
+

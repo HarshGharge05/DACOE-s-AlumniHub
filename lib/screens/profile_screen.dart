@@ -11,7 +11,7 @@ import 'package:alumniapp/widgets/follow_button.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String uid;
-  // final postID;
+
 
    ProfileScreen({Key? key, required this.uid,}) : super(key: key);
 
@@ -22,7 +22,6 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
 
   var userData = {};
-  // var userDataforpost = {};
 
   int postLen = 0;
   int followers = 0;
@@ -37,9 +36,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
 
-  // void UpdateProfImage()async {
-  //
-  // }
 
   getData() async {
     setState(() {
@@ -57,10 +53,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .get();
 
-      // var postSnapPostID = await FirebaseFirestore.instance
-      //     .collection('posts')
-      //     .doc(widget.postID)
-      //     .get();
 
       postLen = postSnap.docs.length;
       userData = userSnap.data()!;
