@@ -1,5 +1,6 @@
 // import 'dart:html';
 import 'dart:typed_data';
+import 'package:alumniapp/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:alumniapp/resources/auth_methods.dart';
@@ -68,6 +69,10 @@ class _RegisterScreenPageState extends State<RegisterScreenPage> {
   }
 
   void signUpUser() async {
+    
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => SplashScreen())
+    );
 
     setState(() {
       _isLoading = true;

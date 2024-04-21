@@ -21,12 +21,12 @@ class _UserProfileCard extends State<UserProfileCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 0.5,
+      elevation: 0.1,
       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-      color: Colors.white,
+      color: Colors.grey.shade200,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: InkWell(
-        splashColor: Colors.grey.shade300,
+        splashColor: Colors.white,
         onTap: () {
           //for navigating to chat screen
           Navigator.push(context, MaterialPageRoute(builder: (_) => ProfileScreen(
