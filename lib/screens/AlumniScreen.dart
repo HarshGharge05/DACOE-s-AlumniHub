@@ -43,6 +43,7 @@ class _ScreenHome extends State<ScreenHome> {
         child: Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
+            automaticallyImplyLeading: false,
             backgroundColor: Colors.lightBlueAccent.shade400,
             iconTheme: IconThemeData(color: Colors.white),
             centerTitle: true,
